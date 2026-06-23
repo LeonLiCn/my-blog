@@ -1,0 +1,35 @@
+import Container from "@/app/_components/container";
+import { HeroPost } from "@/app/_components/hero-post";
+import { Intro } from "@/app/_components/intro";
+import { MoreStories } from "@/app/_components/more-stories";
+import { getAllPosts } from "@/lib/api";
+
+export default function Index() {
+  const allPosts = getAllPosts();
+  const heroPost = allPosts[0];
+
+  return (
+    <main>
+      <Container>
+        <Intro />
+        {heroPost ? (
+          <>
+            <HeroPost
+              title={heroPost.title}
+              coverImage={heroPost.coverImage}
+              date={heroPost.date}
+              author={heroPost.author}
+              slug={heroPost.slug}
+              excerpt={heroPost.excerpt}
+            />
+            {allPosts.length > 1 && <MoreStories posts={allPosts.slice(1)} />}
+          </>
+        ) : (
+          <p className="mb-32 text-lg text-neutral-600 dark:text-slate-300">
+            No posts yet.
+          </p>
+        )}
+      </Container>
+    </main>
+  );
+}
