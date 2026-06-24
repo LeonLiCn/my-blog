@@ -2,10 +2,8 @@
 title: "加拿大幼教还能移民吗？"
 excerpt: "一个 Sudbury 幼教留学生家庭两年的真实经历：从选择小镇、读书生活，到毕业求职、RCIP 和政策风险。"
 coverImage: "/assets/blog/canada-immigration/cover.png"
+pinned: true
 date: "2026-06-23T00:00:00.000Z"
-author:
-  name: Leon Lee
-  picture: "/assets/blog/authors/jj.jpeg"
 ogImage:
   url: "/assets/blog/canada-immigration/cover.png"
 ---

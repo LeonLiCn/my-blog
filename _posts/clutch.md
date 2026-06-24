@@ -3,9 +3,6 @@ title: "Toronto Clutch 提车记：互联网二手车平台的时间陷阱"
 excerpt: "在安省 Clutch 平台购买二手车的裸车方案看似便宜，但极其压缩的时间窗口、共同拥有人规定等一系列隐形坑等着新手。我用一次真实经历总结避坑指南。"
 coverImage: "/assets/blog/clutch/cover.png"
 date: "2026-06-15T00:00:00.000Z"
-author:
-  name: Leon Lee
-  picture: "/assets/blog/authors/jj.jpeg"
 ogImage:
   url: "/assets/blog/clutch/cover.png"
 ---

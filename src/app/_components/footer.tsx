@@ -3,22 +3,18 @@ import { SITE_NAME } from "@/lib/constants";
 
 export function Footer() {
   return (
-    <footer className="bg-neutral-50 border-t border-neutral-200 dark:bg-slate-800">
+    <footer className="mt-20 border-t border-slate-200 dark:border-slate-800">
       <Container>
-        <div className="py-28 flex flex-col lg:flex-row items-center">
-          <h3 className="text-4xl lg:text-[2.5rem] font-bold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">
-            Notes from {SITE_NAME}.
-          </h3>
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
-            <a
-              href="/"
-              className="mx-3 bg-black hover:bg-white hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0"
-            >
-              Read Latest
+        <div className="py-10 flex flex-col md:flex-row md:items-center gap-y-2 md:justify-between text-sm text-slate-500 dark:text-slate-400">
+          <div>
+            © {new Date().getFullYear()} {SITE_NAME}
+          </div>
+          <div className="flex items-center gap-x-4">
+            <a href="/" className="hover:text-slate-900 dark:hover:text-slate-100 transition-colors">
+              Latest posts
             </a>
-            <span className="mx-3 text-neutral-600 dark:text-slate-300">
-              Built with Next.js and Markdown.
-            </span>
+            <span className="text-slate-300 dark:text-slate-700">·</span>
+            <span>Built with Next.js</span>
           </div>
         </div>
       </Container>

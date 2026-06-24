@@ -13,7 +13,10 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_TITLE,
+  title: {
+    default: SITE_TITLE,
+    template: `%s — ${SITE_TITLE}`,
+  },
   description: SITE_DESCRIPTION,
   openGraph: {
     title: SITE_TITLE,
@@ -62,8 +65,10 @@ export default function RootLayout({
         <meta name="theme-color" content="#000" />
         <link rel="alternate" type="application/rss+xml" href="/feed.xml" />
       </head>
-      <body className={cn("font-sans dark:bg-slate-900 dark:text-slate-400")}>
-        <ThemeSwitcher />
+      <body className={cn("font-sans bg-white text-slate-950 dark:bg-slate-950 dark:text-slate-200")}>
+        <div className="max-w-4xl mx-auto px-5 pt-6 pb-2 flex justify-end">
+          <ThemeSwitcher />
+        </div>
         <div className="min-h-screen">{children}</div>
         <Footer />
       </body>

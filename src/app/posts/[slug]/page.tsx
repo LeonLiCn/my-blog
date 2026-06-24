@@ -24,12 +24,11 @@ export default async function Post(props: Params) {
       <Alert preview={post.preview} />
       <Container>
         <Header />
-        <article className="mb-32">
+        <article>
           <PostHeader
             title={post.title}
             coverImage={post.coverImage}
             date={post.date}
-            author={post.author}
           />
           <PostBody content={content} />
         </article>

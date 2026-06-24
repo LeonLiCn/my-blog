@@ -18,14 +18,13 @@ export default function Index() {
               title={heroPost.title}
               coverImage={heroPost.coverImage}
               date={heroPost.date}
-              author={heroPost.author}
               slug={heroPost.slug}
               excerpt={heroPost.excerpt}
             />
             {allPosts.length > 1 && <MoreStories posts={allPosts.slice(1)} />}
           </>
         ) : (
-          <p className="mb-32 text-lg text-neutral-600 dark:text-slate-300">
+          <p className="text-slate-500 dark:text-slate-400">
             No posts yet.
           </p>
         )}

@@ -6,31 +6,27 @@ type Props = {
 };
 
 const Alert = ({ preview }: Props) => {
+  if (preview) {
+    return (
+      <div className="bg-amber-950 text-amber-200 border-b border-amber-900">
+        <Container>
+          <div className="py-1.5 text-center text-xs tracking-wide">
+            Preview mode —{" "}
+            <a href="/api/exit-preview" className="underline hover:text-white">
+              exit
+            </a>
+          </div>
+        </Container>
+      </div>
+    );
+  }
+
+  // Non-preview bar is now very subtle
   return (
-    <div
-      className={cn("border-b dark:bg-slate-800", {
-        "bg-neutral-800 border-neutral-800 text-white": preview,
-        "bg-neutral-50 border-neutral-200": !preview,
-      })}
-    >
+    <div className="border-b border-slate-100 dark:border-slate-900">
       <Container>
-        <div className="py-2 text-center text-sm">
-          {preview ? (
-            <>
-              This page is a preview.{" "}
-              <a
-                href="/api/exit-preview"
-                className="underline hover:text-teal-300 duration-200 transition-colors"
-              >
-                Click here
-              </a>{" "}
-              to exit preview mode.
-            </>
-          ) : (
-            <>
-              Personal notes, field reports, and practical lessons from Leon.
-            </>
-          )}
+        <div className="py-1 text-center text-[11px] tracking-[0.5px] text-slate-400 dark:text-slate-600">
+          Personal notes on life, tech &amp; immigration
         </div>
       </Container>
     </div>

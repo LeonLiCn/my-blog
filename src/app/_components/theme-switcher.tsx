@@ -12,68 +12,61 @@ type ColorSchemePreference = "system" | "dark" | "light";
 const STORAGE_KEY = "leon-lee-blog-theme";
 const modes: ColorSchemePreference[] = ["system", "dark", "light"];
 
-/** to reuse updateDOM function defined inside injected script */
-
-/** function to be injected in script tag for avoiding FOUC (Flash of Unstyled Content) */
-export const NoFOUCScript = (storageKey: string) => {
-  /* can not use outside constants or function as this script will be injected in a different context */
+/** Injected script to set theme before React hydrates (prevents FOUC) */
+const NoFOUCScript = (storageKey: string) => {
   const [SYSTEM, DARK, LIGHT] = ["system", "dark", "light"];
 
-  /** Modify transition globally to avoid patched transitions */
   const modifyTransition = () => {
     const css = document.createElement("style");
     css.textContent = "*,*:after,*:before{transition:none !important;}";
     document.head.appendChild(css);
-
     return () => {
-      /* Force restyle */
       getComputedStyle(document.body);
-      /* Wait for next tick before removing */
       setTimeout(() => document.head.removeChild(css), 1);
     };
   };
 
   const media = matchMedia(`(prefers-color-scheme: ${DARK})`);
 
-  /** function to add remove dark class */
   window.updateDOM = () => {
     const restoreTransitions = modifyTransition();
-    const mode = localStorage.getItem(storageKey) ?? SYSTEM;
+    const stored = localStorage.getItem(storageKey) ?? SYSTEM;
     const systemMode = media.matches ? DARK : LIGHT;
-    const resolvedMode = mode === SYSTEM ? systemMode : mode;
-    const classList = document.documentElement.classList;
-    if (resolvedMode === DARK) classList.add(DARK);
-    else classList.remove(DARK);
-    document.documentElement.setAttribute("data-mode", mode);
+    const resolved = stored === SYSTEM ? systemMode : stored;
+    const root = document.documentElement;
+
+    if (resolved === DARK) root.classList.add(DARK);
+    else root.classList.remove(DARK);
+
+    root.setAttribute("data-mode", stored);
     restoreTransitions();
   };
+
   window.updateDOM();
   media.addEventListener("change", window.updateDOM);
 };
 
 let updateDOM: () => void;
 
-/**
- * Switch button to quickly toggle user preference.
- */
-const Switch = () => {
-  const [mode, setMode] = useState<ColorSchemePreference>(
-    () =>
-      ((typeof localStorage !== "undefined" &&
-        localStorage.getItem(STORAGE_KEY)) ??
-        "system") as ColorSchemePreference,
-  );
+const ThemeToggle = () => {
+  const [mode, setMode] = useState<ColorSchemePreference>(() => {
+    if (typeof localStorage !== "undefined") {
+      return (localStorage.getItem(STORAGE_KEY) as ColorSchemePreference) || "system";
+    }
+    return "system";
+  });
 
   useEffect(() => {
-    // store global functions to local variables to avoid any interference
     updateDOM = window.updateDOM;
-    /** Sync the tabs */
-    const handleStorage = (e: StorageEvent): void => {
-      e.key === STORAGE_KEY && setMode(e.newValue as ColorSchemePreference);
+
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY) {
+        setMode(e.newValue as ColorSchemePreference);
+      }
     };
 
-    addEventListener("storage", handleStorage);
-    return () => removeEventListener("storage", handleStorage);
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
   }, []);
 
   useEffect(() => {
@@ -81,18 +74,24 @@ const Switch = () => {
     updateDOM?.();
   }, [mode]);
 
-  /** toggle mode */
-  const handleModeSwitch = () => {
-    const index = modes.indexOf(mode);
-    setMode(modes[(index + 1) % modes.length]);
+  const cycleMode = () => {
+    const currentIndex = modes.indexOf(mode);
+    setMode(modes[(currentIndex + 1) % modes.length]);
   };
+
+  const modeLabel = {
+    system: "System",
+    light: "Light",
+    dark: "Dark",
+  }[mode];
+
   return (
     <button
-      suppressHydrationWarning
-      aria-label={`Switch theme. Current mode: ${mode}`}
-      title={`Theme: ${mode}`}
+      onClick={cycleMode}
       className={styles.switch}
-      onClick={handleModeSwitch}
+      aria-label={`Theme: ${modeLabel}. Click to change.`}
+      title={`Theme: ${modeLabel}`}
+      suppressHydrationWarning
     />
   );
 };
@@ -105,14 +104,9 @@ const Script = memo(() => (
   />
 ));
 
-/**
- * This component applies classes and transitions.
- */
-export const ThemeSwitcher = () => {
-  return (
-    <>
-      <Script />
-      <Switch />
-    </>
-  );
-};
+export const ThemeSwitcher = () => (
+  <>
+    <Script />
+    <ThemeToggle />
+  </>
+);

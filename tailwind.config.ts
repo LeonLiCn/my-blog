@@ -3,15 +3,13 @@ import type { Config } from "tailwindcss";
 const config: Config = {
   darkMode: "class",
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
       fontFamily: {
         sans: [
-          "Inter",
+          "system-ui",
           "-apple-system",
           "BlinkMacSystemFont",
           "Segoe UI",
@@ -21,33 +19,24 @@ const config: Config = {
           "sans-serif",
         ],
       },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      },
       colors: {
-        "accent-1": "#FAFAFA",
-        "accent-2": "#EAEAEA",
-        "accent-7": "#333",
-        success: "#0070f3",
-        cyan: "#79FFE1",
-      },
-      spacing: {
-        28: "7rem",
+        accent: {
+          DEFAULT: "#0f766e",
+          light: "#14b8a6",
+          dark: "#0d9488",
+        },
       },
       letterSpacing: {
-        tighter: "-.04em",
+        tight: "-0.015em",
+        tighter: "-0.028em",
       },
       fontSize: {
-        "5xl": "2.5rem",
+        "5xl": "2.25rem",
         "6xl": "2.75rem",
-        "7xl": "4.5rem",
-        "8xl": "6.25rem",
       },
       boxShadow: {
-        sm: "0 5px 10px rgba(0, 0, 0, 0.12)",
-        md: "0 8px 30px rgba(0, 0, 0, 0.12)",
+        sm: "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        md: "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)",
       },
     },
   },
